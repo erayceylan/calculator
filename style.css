@@ -34,6 +34,8 @@ body {
 }
 
 .screen-main {
+    display: flex;
+    align-items: flex-end;
     width: 264px;
     height: 40px;
     font-size: 30px;
