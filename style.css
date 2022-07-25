@@ -20,11 +20,11 @@ body {
     flex-direction: column-reverse;
     align-items: center;
     flex: 1;
-    margin-bottom: 20vh;
+    margin-bottom: 30vh;
 }
 
 .screen {
-    direction: rtl;
+    text-align:end;
     padding: 8px;
 }
 
@@ -34,8 +34,8 @@ body {
 }
 
 .screen-main {
-    display: flex;
-    align-items: flex-end;
+    display: table-cell;
+    vertical-align: bottom;
     width: 264px;
     height: 40px;
     font-size: 30px;
@@ -62,4 +62,23 @@ body {
     border-radius: 12px;
 
     outline: 1px solid white;
+}
+
+
+#add,
+#substract,
+#multiply,
+#divide,
+#equals {
+    background-color:#355432
+}
+
+#clear {
+    background-color: #543232;
+}
+
+#equals {
+    background-color: #a85d02;
+    grid-column: span 3;
+    width: 208px;
 }
