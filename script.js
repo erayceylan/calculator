@@ -1,22 +1,22 @@
-function add(n1,n2) {
+function addNumbers(n1,n2) {
     // These functions are main operator functions.
     // If one of the values is "undefined", it returns "undefined" value.
     // They also truncate the answer to 8 digits.
     return n1 == undefined || n2 == undefined ? undefined : +((n1+n2).toFixed(8))
 }
-function substract(n1,n2) {
+function substractNumbers(n1,n2) {
     // These functions are main operator functions.
     // If one of the values is "undefined", it returns "undefined" value.
     // They also truncate the answer to 8 digits.
     return n1 == undefined || n2 == undefined ? undefined : +((n1-n2).toFixed(8))
 }
-function multiply(n1,n2) {
+function multiplyNumbers(n1,n2) {
     // These functions are main operator functions.
     // If one of the values is "undefined", it returns "undefined" value.
     // They also truncate the answer to 8 digits.
     return n1 == undefined || n2 == undefined ? undefined : +((n1*n2).toFixed(8))
 }
-function divide(n1,n2) {
+function divideNumbers(n1,n2) {
     // These functions are main operator functions.
     // If one of the values is "undefined", it returns "undefined" value.
     // They also truncate the answer to 8 digits.
@@ -80,10 +80,10 @@ function Calculation() {
 
     // "calculate" method checks which operation flag is up and then calls according operation funtion to calculate the answer.
     this.calculate = function() {
-        if (this.add) this.ans = add(this.number[0],this.number[1])
-        if (this.substract) this.ans = substract(this.number[0],this.number[1])
-        if (this.multiply) this.ans = multiply(this.number[0],this.number[1])
-        if (this.divide) this.ans = divide(this.number[0],this.number[1])
+        if (this.add) this.ans = addNumbers(this.number[0],this.number[1])
+        if (this.substract) this.ans = substractNumbers(this.number[0],this.number[1])
+        if (this.multiply) this.ans = multiplyNumbers(this.number[0],this.number[1])
+        if (this.divide) this.ans = divideNumbers(this.number[0],this.number[1])
     };
 
     // "archive" method stores calculation operation. It only stores calculations where answer and numbers are valid numbers.
@@ -105,6 +105,14 @@ function initialize() {
     mainDisplay.innerHTML = "0"
 }
 
+function oppositeSign() {
+
+    // This function changes screen number to its positive/negative value and updates displayed value.
+    
+    calculation.screen *= (-1)
+    mainDisplay.innerHTML = `${calculation.screen}`
+}
+
 function operatorHandler(operator) {
 
     // This function sets operation function flags according to operator value.
@@ -119,11 +127,12 @@ function captureEvent(e) {
 
     // This function is called with "keydown" input on the window.
     // Below arrays are active key lists.
-
+    if (e == "Enter") e = "=";
     const numbers = ["1","2","3","4","5","6","7","8","9","0"]
     const operators = ["+","-","*","/"]
-    const equals = ["=","Enter"]
-    const utilities = ["Escape",".","Backspace"]
+    const equals = ["="]
+    const utilities = ["Escape",".","Backspace","pandn"]
+    const keybinds = ["1","2","3","4","5","6","7","8","9","0","+","-","*","/","=","Escape",".","pandn"]
 
     // According to key values main functions of calculator are called.
 
@@ -131,6 +140,12 @@ function captureEvent(e) {
     if(operators.includes(e)) operatorPressed(e)
     if(equals.includes(e)) equalPressed()
     if(utilities.includes(e)) utilityPressed(e)
+
+    if(keybinds.includes(e)) {
+        const key = document.querySelector(`#${CSS.escape(e)}`);
+        key.classList.add("pressed")
+        setTimeout(()=> {key.classList.remove('pressed')},150)
+    }
 }
 
 function numberPressed(number) {
@@ -177,7 +192,8 @@ function utilityPressed(utility) {
     // Below line calls initialize function to intialize calculation.
     if (clear.includes(utility)) initialize()
 
-    // if (pandn.includes(utility)) mainDisplay.innerHTML = `${(+mainDisplay.innerHTML) * (-1)}`
+    // Below line changes displayed number to its positive/negative value.
+    if (utility == "pandn") oppositeSign()
 
     // As a design decison the screen displays "0" value whenever there is noting to display on the screen.
     // When user starts to input numbers, "0" value is removed.
@@ -275,11 +291,19 @@ function equalPressed() {
     adjustDisplay()
 }
 
+
+
+const keys = document.querySelectorAll(".key");
+keys.forEach(key => key.addEventListener("mousedown",(e) => captureEvent(e.target.id)))
+console.log(keys)
+
+
+
 // Event listener added to window for "keydown" action.
 window.addEventListener('keydown', (e) => captureEvent(e.key));
 
 // Main display screen is selected as an object to manipulate its value globally
-const mainDisplay = document.querySelector(".screen-main")
+const mainDisplay = document.querySelector(".screen-main");
 
 // This line starts first calculation.
-let calculation = new Calculation()
+let calculation = new Calculation();

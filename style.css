@@ -46,6 +46,9 @@ body {
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 8px;
     width: max-content;
+
+    cursor: pointer;
+
 }
 
 .key {
@@ -61,24 +64,34 @@ body {
 
     border-radius: 12px;
 
-    outline: 1px solid white;
+    background-color: #548551;
+
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+
 }
 
 
-#add,
-#substract,
-#multiply,
-#divide,
-#equals {
-    background-color:#355432
+.operator {
+    background-color: #355432;
 }
 
-#clear {
+.escape {
     background-color: #543232;
 }
 
-#equals {
-    background-color: #a85d02;
+.enter {
+    background-color: #355432;
     grid-column: span 3;
     width: 208px;
+}
+
+
+/* KEY PRESSED ANIMATION */
+
+.pressed {
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
