@@ -88,11 +88,18 @@ function Calculation() {
 
     // "archive" method stores calculation operation. It only stores calculations where answer and numbers are valid numbers.
     this.archive = function() {
+
         if (this.ans != undefined && this.number[0] != undefined && this.number[0] != undefined) {
             if (this.add) this.history.unshift(`${this.number[0]} + ${this.number[1]} = ${calculation.ans}`)
             if (this.substract) this.history.unshift(`${this.number[0]} - ${this.number[1]} = ${calculation.ans}`)
             if (this.multiply) this.history.unshift(`${this.number[0]} * ${this.number[1]} = ${calculation.ans}`)
             if (this.divide) this.history.unshift(`${this.number[0]} / ${this.number[1]} = ${calculation.ans}`)
+            this.history.pop()
+            screenHistory[4].innerHTML = this.history[0]
+            screenHistory[3].innerHTML = this.history[1]
+            screenHistory[2].innerHTML = this.history[2]
+            screenHistory[1].innerHTML = this.history[3]
+            screenHistory[0].innerHTML = this.history[4]
         }
     };
 }
@@ -103,6 +110,8 @@ function initialize() {
 
     calculation = new Calculation();
     mainDisplay.innerHTML = "0"
+    screenHistory.forEach(text => text.innerHTML = "")
+
 }
 
 function oppositeSign() {
@@ -307,6 +316,7 @@ window.addEventListener('keydown', (e) => captureEvent(e.key));
 
 // Main display screen is selected as an object to manipulate its value globally
 const mainDisplay = document.querySelector(".screen-main");
+const screenHistory = document.querySelectorAll(".screen-history")
 
 // This line starts first calculation.
 let calculation = new Calculation();
