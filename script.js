@@ -108,9 +108,15 @@ function initialize() {
 function oppositeSign() {
 
     // This function changes screen number to its positive/negative value and updates displayed value.
-    
-    calculation.screen *= (-1)
-    mainDisplay.innerHTML = `${calculation.screen}`
+    if (calculation.screen != undefined) {
+        calculation.screen *= (-1)
+        mainDisplay.innerHTML = `${calculation.screen}`
+    }
+}
+
+function deleteNumber() {
+    mainDisplay.innerHTML = mainDisplay.innerHTML.slice(0,-1)
+    calculation.screen = +mainDisplay.innerHTML
 }
 
 function operatorHandler(operator) {
@@ -135,12 +141,12 @@ function captureEvent(e) {
     const keybinds = ["1","2","3","4","5","6","7","8","9","0","+","-","*","/","=","Escape",".","pandn"]
 
     // According to key values main functions of calculator are called.
-
     if(numbers.includes(e)) numberPressed(e)
     if(operators.includes(e)) operatorPressed(e)
     if(equals.includes(e)) equalPressed()
     if(utilities.includes(e)) utilityPressed(e)
 
+    // Below lines are for key pressed animations.
     if(keybinds.includes(e)) {
         const key = document.querySelector(`#${CSS.escape(e)}`);
         key.classList.add("pressed")
@@ -184,7 +190,7 @@ function utilityPressed(utility) {
     const clear = ["Escape"]
 
     // Below line deletes last element of displayed string.
-    if (deletion.includes(utility)) mainDisplay.innerHTML = mainDisplay.innerHTML.slice(0,-1)
+    if (deletion.includes(utility)) deleteNumber()
 
     // Below line adds "." string to display value if none "." exists in it.
     if (decimal.includes(utility) && !mainDisplay.innerHTML.includes(".")) mainDisplay.innerHTML += "."
@@ -295,9 +301,6 @@ function equalPressed() {
 
 const keys = document.querySelectorAll(".key");
 keys.forEach(key => key.addEventListener("mousedown",(e) => captureEvent(e.target.id)))
-console.log(keys)
-
-
 
 // Event listener added to window for "keydown" action.
 window.addEventListener('keydown', (e) => captureEvent(e.key));
@@ -307,3 +310,4 @@ const mainDisplay = document.querySelector(".screen-main");
 
 // This line starts first calculation.
 let calculation = new Calculation();
+      
